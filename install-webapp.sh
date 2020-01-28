@@ -41,48 +41,7 @@ askcs ()  {
 }
 
 #----- START
-
-echo ""
-echo "##INF: ----------------------------------------------"
-echo "##INF: Mono/apache - Ubuntu install"
-echo "##INF:"
-echo "##INF: - Must be executed as root (sudo)"
-echo "##INF:"
-echo -n "##INF: PRESS ENTER TO PROCEED <ENTER>"
-read d
-
 #----- STEP 1
-
-echo ""
-echo "##INF:[02/03] Installing MONO/Mod-mono"
-
-	#Add the last official repository
-	sudo apt install gnupg ca-certificates
-	sudo apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv-keys 3FA7E0328081BFF6A14DA29AA6A19B38D3D831EF
-	echo "deb https://download.mono-project.com/repo/ubuntu stable-bionic main" | sudo tee /etc/apt/sources.list.d/mono-official-stable.list
-
-	sudo apt-get update
-	sudo apt-get -y install mono-complete
-	sudo apt-get -y install mono-xsp4
-	sudo apt-get -y install libapache2-mod-mono
-	#apt-get -y install mono-apache-server2
-
-#----- STEP 2
-
-echo ""
-echo "##INF:[01/03] Installing apache"
-
-	sudo apt-get -y update
-	#apt-get -y install wget
-	sudo apt-get -y install apache2
-
-	#Disable apache KeepAlive as recomended by mono-project for production use
-	sudo find /etc/apache2/ -name apache2.conf -type f -exec sed -i s/"KeepAlive On"/"KeepAlive Off"/g {} \;
-	
-	sudo /etc/init.d/apache2 restart
-
-
-#----- STEP 3
 echo ""
 echo "##INF:[03/03] Configuring ASP.NET application"
 
