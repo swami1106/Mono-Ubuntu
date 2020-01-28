@@ -71,7 +71,9 @@ echo "##INF:[02/03] Installing MONO/Mod-mono"
 	echo "deb https://download.mono-project.com/repo/ubuntu stable-bionic main" | sudo tee /etc/apt/sources.list.d/mono-official-stable.list
 
 	apt-get update
-	apt-get -y install mono-runtime
+	apt-get -y install mono-devel
+	apt-get -y install mono-complete
+	apt-get -y install mono-xsp4
 	apt-get -y install libapache2-mod-mono
 	#apt-get -y install mono-apache-server2
 
@@ -90,17 +92,17 @@ echo "##INF:[03/03] Configuring ASP.NET application"
 
 	#Get some templates used for replacement on config files
 	wget https://raw.githubusercontent.com/edgarrc/MonoUbuntu/master/template-insert-sites.txt
-	wget https://raw.githubusercontent.com/edgarrc/MonoUbuntu/master/template-insert-webapp.txt
+	#wget https://raw.githubusercontent.com/edgarrc/MonoUbuntu/master/template-insert-webapp.txt
 
 	#Update template variables	
 	find ./ -name template-insert-sites.txt -type f -exec sed -i s/"%APPNAME%"/"$appnameInput"/g {} \;
-	find ./ -name template-insert-webapp.txt -type f -exec sed -i s/"%APPNAME%"/"$appnameInput"/g {} \;
+	#find ./ -name template-insert-webapp.txt -type f -exec sed -i s/"%APPNAME%"/"$appnameInput"/g {} \;
 	
 	#Apply to apache default website configuration
 	sed -i '/<VirtualHost/r template-insert-sites.txt' /etc/apache2/sites-enabled/000-default.conf
 
 	#Apply to default.webapp	
-	sed -i '/<apps>/r template-insert-webapp.txt' /etc/mono-server4/debian.webapp
+	#sed -i '/<apps>/r template-insert-webapp.txt' /etc/mono-server4/debian.webapp
 	
 	#Remove templates
 	rm template-insert-sites.txt
